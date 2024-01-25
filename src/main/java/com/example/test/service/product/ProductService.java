@@ -45,6 +45,7 @@ public class ProductService implements IProductService{
     public void update(ProductSaveRequest request, long id) throws JsonMappingException {
         Product product = findById(id);
         objectMapper.updateValue(product, request);
+        productRepository.save(product);
     }
 
     @Override

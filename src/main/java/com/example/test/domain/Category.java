@@ -9,6 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "categories")
 @SQLDelete(sql = "UPDATE categories SET deleted = 'DELETED' WHERE id = ?")
+@Where(clause = "deleted <> 'DELETED'")
 public class Category  extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

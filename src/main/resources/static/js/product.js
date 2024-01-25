@@ -110,7 +110,7 @@ async function showEdit(id) {
 
 
 async function getProducts() {
-    const res = await fetch(`/api/products?page=${page}&size=2&search=${searchValue}`);
+    const res = await fetch(`/api/products?page=${page}&size=${LIMIT}&search=${searchValue}`);
     return await res.json();
 }
 
@@ -158,12 +158,26 @@ async function renderTable() {
     loading.classList.add('d-none');
 }
 
+function deleteProduct(id) {
+    if(confirm('Do you want remove it?')){
+        fetch('/api/products/' + id, {method: 'DELETE'})
+            .then(async () => {
+                await renderTable();
+                toastr.success('Delete success');
+            })
+    }
+
+}
+
 const addEventEditAndDelete = async () => {
     const eEdits = tBody.querySelectorAll('.edit');
-    //const eDeletes = tBody.querySelectorAll('.delete');
+    const eDeletes = tBody.querySelectorAll('.delete');
     for (let i = 0; i < eEdits.length; i++) {
         eEdits[i].addEventListener('click', () => {
             showEdit(eEdits[i].dataset.id);
+        })
+        eDeletes[i].addEventListener('click', () => {
+            deleteProduct(eDeletes[i].dataset.id);
         })
     }
 }

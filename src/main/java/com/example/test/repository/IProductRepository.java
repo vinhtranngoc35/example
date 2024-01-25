@@ -14,4 +14,6 @@ public interface IProductRepository extends JpaRepository<Product, Long> {
             "WHERE (:categoryId is null or c.id = :categoryId) AND " +
             "(p.name LIKE :search or p.description LIKE :search or c.name LIKE :search)")
     Page<ProductListResponse> findAllWithSearch(String search, Long categoryId, Pageable pageable);
+
+    void deleteAllByCategory_Id(Long categoryId);
 }

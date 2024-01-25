@@ -3,17 +3,20 @@ package com.example.test.domain;
 
 import com.example.test.domain.enumration.EStatusDelete;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Where;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 
 import java.time.LocalDateTime;
 
 @MappedSuperclass
-@Where(clause = "deleted <> 'DELETED'")
-public abstract class BaseEntity {
-
+public abstract class BaseEntity implements ApplicationContextAware {
+    protected static ApplicationContext context;
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        context = applicationContext;
+    }
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -23,6 +26,8 @@ public abstract class BaseEntity {
     private EStatusDelete deleted = EStatusDelete.NON_DELETED;
 
     private String deletedBy;
+
+    private LocalDateTime deletedAt;
 
     private String createdBy;
 
@@ -41,9 +46,15 @@ public abstract class BaseEntity {
         updatedAt = LocalDateTime.now();
         updatedBy = getCurrentUsername();
     }
+    @PreRemove
+    protected void onRemove() {
+        deletedAt = LocalDateTime.now();
+        deletedBy = getCurrentUsername();
+    }
 
 
-    private String getCurrentUsername() {
+
+    public String getCurrentUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             return authentication.getName();
@@ -97,5 +108,13 @@ public abstract class BaseEntity {
 
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
     }
 }

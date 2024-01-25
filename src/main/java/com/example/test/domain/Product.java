@@ -1,15 +1,18 @@
 package com.example.test.domain;
 
+import com.example.test.repository.IProductRepository;
 import jakarta.persistence.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "products")
 @SQLDelete(sql = "UPDATE products SET deleted = 'DELETED' WHERE id = ?")
-public class Product  extends  BaseEntity{
+@Where(clause = "deleted <> 'DELETED'")
+public class Product  extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,4 +68,6 @@ public class Product  extends  BaseEntity{
     public void setCategory(Category category) {
         this.category = category;
     }
+
+
 }

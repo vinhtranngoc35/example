@@ -3,10 +3,12 @@ package com.example.test.domain;
 import com.example.test.domain.enumration.ERole;
 import jakarta.persistence.*;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "users")
 @SQLDelete(sql = "UPDATE users SET deleted = 'DELETED' WHERE id = ?")
+@Where(clause = "deleted <> 'DELETED'")
 public class User extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

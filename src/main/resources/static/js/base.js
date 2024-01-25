@@ -14,7 +14,6 @@ function createInput(props) {
 function createSelect(props) {
     let optionsStr = "";
     props.options.forEach(e => {
-        console.log(e.value + " " + props.value)
         if (e.id == props.value) {
             optionsStr += `<option value="${e.id}" selected>${e.name}</option>`;
         } else {
