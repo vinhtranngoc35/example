@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product</title>
+</head>
+<body>
+<th:block th:insert="~{layout::header}"></th:block>
+
+<div class="container">
+    <h1>Product</h1>
+    <button type="button" class="btn btn-primary mt-4 mb-4" onclick="showCreate()" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="create">
+        Create Product
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 800px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form">
+                        <div class="row">
+                            <div id="formBody">
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <h5 class="card-header">Table Basic</h5>
+        <div class="table-responsive text-nowrap">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody class="table-border-bottom-0" id="tBody">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <ul class="pagination" id="paging">
+
+    </ul>
+</div>
+
+<div class="d-flex justify-content-center mt-5">
+    <div class="spinner-border" role="status" id="loading">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+
+</div>
+<th:block th:insert="~{layout::footer}"></th:block>
+<script src="/static/js/product.js"></script>
+</body>
+</html>
