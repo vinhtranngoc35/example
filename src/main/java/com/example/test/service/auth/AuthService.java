@@ -43,7 +43,7 @@ public class AuthService implements UserDetailsService, IAuthService {
     }
 
     public void register(RegisterRequest request) {
-        if (userRepository.findUserByUsername(request.username()).isPresent()) {
+        if (userRepository.existsByUsername(request.username())) {
             throw new IllegalStateException("Username is already taken");
         }
         User user = new User();

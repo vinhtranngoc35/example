@@ -7,6 +7,7 @@ import com.example.test.repository.IProductRepository;
 import com.example.test.service.product.request.ProductSaveRequest;
 import com.example.test.service.product.response.ProductDetailResponse;
 import com.example.test.service.product.response.ProductListResponse;
+import com.example.test.util.AppConstant;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,8 @@ public class ProductService implements IProductService{
     private final IProductRepository productRepository;
 
     private final ObjectMapper objectMapper;
+
+    private final String ENTITY = "Product";
 
     public ProductService(IProductRepository productRepository, ObjectMapper objectMapper) {
         this.productRepository = productRepository;
@@ -55,7 +58,7 @@ public class ProductService implements IProductService{
 
     @Override
     public Product findById(long id) {
-        return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+        return productRepository.findById(id).orElseThrow(() ->new RuntimeException(String.format(AppConstant.ID_NOT_FOUND, id, ENTITY)));
     }
 
     @Override

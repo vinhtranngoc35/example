@@ -6,6 +6,7 @@ import com.example.test.repository.ICategoryRepository;
 import com.example.test.repository.IProductRepository;
 import com.example.test.service.category.request.CategorySaveRequest;
 import com.example.test.service.response.SelectOptionResponse;
+import com.example.test.util.AppConstant;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,8 @@ public class CategoryService implements ICategoryService {
 
     private final ICategoryRepository categoryRepository;
     private final IProductRepository productRepository;
+
+    private final String ENTITY = "Category";
 
     public CategoryService(ICategoryRepository categoryRepository, IProductRepository productRepository) {
         this.categoryRepository = categoryRepository;
@@ -52,7 +55,7 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public Category findById(long id) {
-        return categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category not found"));
+        return categoryRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format(AppConstant.ID_NOT_FOUND, id, ENTITY)));
     }
 
     @Override

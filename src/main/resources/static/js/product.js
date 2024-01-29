@@ -2,7 +2,6 @@ const form = document.getElementById('form');
 let productSelected = {};
 const formBody = document.getElementById('formBody');
 const tBody = document.getElementById('tBody');
-const loadMore = document.getElementById('loadMore');
 const loading = document.getElementById('loading');
 const search = document.getElementById('search');
 const formSearch = document.getElementById('formSearch');
@@ -26,12 +25,12 @@ form.onsubmit = async (e) => {
 
     let result = false;
     if (productSelected.id) {
-       result = await myFetch({data, url: '/api/products/' + productSelected.id, method: 'PUT', message: 'Edited'});
+        result = await myFetch({data, url: '/api/products/' + productSelected.id, method: 'PUT', message: 'Edited'});
 
     } else {
         result = await myFetch({data, url: '/api/products', method: 'POST', message: 'Created'})
     }
-    if(result){
+    if (result) {
         await renderTable();
         $('#staticBackdrop').modal('hide');
     }
@@ -39,12 +38,10 @@ form.onsubmit = async (e) => {
 }
 
 
-
 async function getCategoriesSelectOption() {
     const res = await fetch('api/categories');
     return await res.json();
 }
-
 
 
 window.onload = async () => {
@@ -88,7 +85,6 @@ function getDataInput() {
             value: productSelected.description,
             pattern: "^[A-Za-z 0-9]{6,120}",
             message: "Description must have minimum is 6 characters and maximum is 20 characters",
-            required: true
         },
 
     ];
@@ -109,13 +105,13 @@ async function showEdit(id) {
 }
 
 
-async function getProducts() {
-    const res = await fetch(`/api/products?page=${page}&size=${LIMIT}&search=${searchValue}`);
+ async function getProducts() {
+    const res = await fetch(`/api/products?page=${page}&size=${LIMIT}&search=${searchValue}`)
     return await res.json();
 }
 
 function renderItemStr(item, index) {
-    return      `<tr>
+    return `<tr>
                     <td>
                         ${(page * LIMIT) + index + 1}
                     </td>
@@ -159,7 +155,7 @@ async function renderTable() {
 }
 
 function deleteProduct(id) {
-    if(confirm('Do you want remove it?')){
+    if (confirm('Do you want remove it?')) {
         fetch('/api/products/' + id, {method: 'DELETE'})
             .then(async () => {
                 await renderTable();
@@ -196,14 +192,12 @@ function showCreate() {
 formSearch.addEventListener('submit', async (e) => {
     e.preventDefault();
     page = 0;
-    count = 0;
     tBody.innerHTML = '';
     searchValue = search.value;
     await renderTable();
 })
 
-function renderPaging(){
-
+function renderPaging() {
     paging.innerHTML = '';
     let str = `<li class="page-item ${+page === 0 ? 'disabled' : ''}">
       <a class="page-link" tabindex="-1" aria-disabled="true" data-page="${page - 1}">Previous</a>
@@ -212,7 +206,7 @@ function renderPaging(){
         str += `<li class="page-item ${+page === i ? 'active' : ''}"><a class="page-link" data-page="${i}">${i + 1}</a></li>`
     }
     str += `<li class="page-item ${+page === totalPage - 1 ? 'disabled' : ''}">
-      <a class="page-link"   data-page="${page + 1}">Next</a>
+      <a class="page-link"   data-page="${(+page) + 1}">Next</a>
     </li>`;
     paging.innerHTML = str;
 
