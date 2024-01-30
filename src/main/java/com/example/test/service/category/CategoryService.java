@@ -4,6 +4,7 @@ package com.example.test.service.category;
 import com.example.test.domain.Category;
 import com.example.test.repository.ICategoryRepository;
 import com.example.test.repository.IProductRepository;
+import com.example.test.service.IExistsService;
 import com.example.test.service.category.request.CategorySaveRequest;
 import com.example.test.service.response.SelectOptionResponse;
 import com.example.test.util.AppConstant;
@@ -11,9 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
-public class CategoryService implements ICategoryService {
+public class CategoryService implements ICategoryService, IExistsService {
 
     private final ICategoryRepository categoryRepository;
     private final IProductRepository productRepository;
@@ -68,5 +70,15 @@ public class CategoryService implements ICategoryService {
         Category category = new Category();
         category.setName("Category 1");
         categoryRepository.save(category);
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return categoryRepository.existsById(id);
+    }
+
+    @Override
+    public boolean isService(String className) {
+        return Objects.equals(className, Category.class.getName());
     }
 }

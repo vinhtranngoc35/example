@@ -4,6 +4,7 @@ package com.example.test.service.product;
 import com.example.test.domain.Category;
 import com.example.test.domain.Product;
 import com.example.test.repository.IProductRepository;
+import com.example.test.service.IExistsService;
 import com.example.test.service.product.request.ProductSaveRequest;
 import com.example.test.service.product.response.ProductDetailResponse;
 import com.example.test.service.product.response.ProductListResponse;
@@ -17,9 +18,10 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
-public class ProductService implements IProductService{
+public class ProductService implements IProductService, IExistsService {
 
     private final IProductRepository productRepository;
 
@@ -95,5 +97,15 @@ public class ProductService implements IProductService{
         products.add(product2);
         productRepository.saveAll(products);
 
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return productRepository.existsById(id);
+    }
+
+    @Override
+    public boolean isService(String className) {
+        return Objects.equals(className, Product.class.getName());
     }
 }

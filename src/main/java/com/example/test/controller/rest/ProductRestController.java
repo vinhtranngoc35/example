@@ -1,9 +1,11 @@
 package com.example.test.controller.rest;
 
+import com.example.test.domain.Product;
 import com.example.test.service.product.IProductService;
 import com.example.test.service.product.request.ProductSaveRequest;
 import com.example.test.service.product.response.ProductDetailResponse;
 import com.example.test.service.product.response.ProductListResponse;
+import com.example.test.validation.exist.ExistsEntity;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -40,13 +42,14 @@ public class ProductRestController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@Valid @RequestBody ProductSaveRequest request, @PathVariable Long id) throws JsonMappingException {
+    public ResponseEntity<Void> update(@Valid @RequestBody ProductSaveRequest request,
+                                        @ExistsEntity(value = Product.class, message = "Product not found" ) @PathVariable Long id) throws JsonMappingException {
         productService.update(request, id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDetailResponse> findById(@PathVariable Long id) {
+    public ResponseEntity<ProductDetailResponse> findById(@ExistsEntity(value = Product.class, message = "Product not found") @PathVariable Long id) {
         return ResponseEntity.ok(productService.findDetailById(id));
     }
 
