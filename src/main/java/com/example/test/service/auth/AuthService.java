@@ -35,9 +35,9 @@ public class AuthService implements UserDetailsService, IAuthService {
                 .withUsername(user.getUsername())
                 .password(user.getPassword())
                 .authorities(user.getRole().toString())
-                .accountExpired(true)
-                .accountLocked(true)
-                .credentialsExpired(true)
+                .accountExpired(false)
+                .accountLocked(false)
+                .credentialsExpired(false)
                 .disabled(false)
                 .build();
     }
